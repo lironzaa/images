@@ -1,1 +1,27 @@
-<p>image works!</p>
+<div class="card" style="width: 25rem">
+  <div class="card-body">
+    <form [formGroup]="formTemplate" (submit)="onSubmit(formTemplate.value)">
+      <div class="text-center">
+        <img [src]="imgSrc" width="350px" height="250px" (click)="fileUploader.click()">
+      </div>
+      <div class="form-group">
+        <label>Select file to upload</label>
+        <input accept="image/*" type="file" class="form-control" #fileUploader formControlName="imageUrl"
+          (change)="showPreview($event)">
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" formControlName="caption" placeholder="Caption">
+      </div>
+      <div class="form-group">
+        <select required formControlName="category" class="form-control">
+          <option value="Cars">Cars</option>
+          <option value="Animals">Animals</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <button [disabled]="!formTemplate.valid" type="submit" class="btn btn-success float-right">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
