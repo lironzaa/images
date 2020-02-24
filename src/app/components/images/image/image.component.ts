@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { finalize } from 'rxjs/operators';
+import { ImageService } from 'src/app/services/image.service';
 
 @Component({
   selector: 'app-image',
@@ -19,7 +20,8 @@ export class ImageComponent implements OnInit {
     imageUrl: new FormControl('', Validators.required),
   })
 
-  constructor(private storage: AngularFireStorage) { }
+  constructor(private storage: AngularFireStorage,
+    private imageService: ImageService) { }
 
   ngOnInit(): void {
     this.resetForm();
@@ -47,6 +49,7 @@ export class ImageComponent implements OnInit {
           finalize(() => {
             fileRef.getDownloadURL().subscribe((url) => {
               formValue['imageUrl'] = url;
+              this.imageService.insertImageDetails(formValue);
               this.resetForm();
             })
           })
